@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+     <title>Digital Trend HTML Template</title>
+<!--
+
+DIGITAL TREND
+
+https://templatemo.com/tm-538-digital-trend
+
+-->
+     <meta charset="UTF-8">
+     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+     <meta name="description" content="">
+     <meta name="keywords" content="">
+     <meta name="author" content="">
+     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+     <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+     <link rel="stylesheet" href="{{ url_for('static', filename='css/font-awesome.min.css') }}">
+     <link rel="stylesheet" href="{{ url_for('static', filename='css/aos.css') }}">
+     <link rel="stylesheet" href="{{ url_for('static', filename='css/owl.carousel.min.css') }}">
+     <link rel="stylesheet" href="{{ url_for('static', filename='css/owl.theme.default.min.css') }}">
+
+     <!-- MAIN CSS -->
+     <link rel="stylesheet" href="{{ url_for('static', filename='css/templatemo-digital-trend.css') }}">
+
+</head>
+<body>
+     <!-- MENU BAR -->
+    <nav class="navbar navbar-expand-lg">
+     <div class="container">
+         <a class="navbar-brand" href="{{ url_for('index') }}">
+             <i class="fa fa-line-chart"></i> Smart NET AI
+         </a>
+         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+             <span class="navbar-toggler-icon"></span>
+         </button>
+         <div class="collapse navbar-collapse" id="navbarNav">
+             <ul class="navbar-nav ml-auto">
+                 <li class="nav-item"><a href="#features" class="nav-link smoothScroll">Features</a></li>
+                 <li class="nav-item"><a href="#implementation" class="nav-link smoothScroll">Implementation</a></li>
+                 <li class="nav-item"><a href="#modules" class="nav-link smoothScroll">Modules</a></li>
+                 <li class="nav-item"><a href="#demo" class="nav-link smoothScroll">Demo</a></li>
+             </ul>
+         </div>
+     </div>
+ </nav>
+
+ <!-- HERO -->
+ <section class="hero hero-bg d-flex justify-content-center align-items-center">
+     <div class="container">
+         <div class="row">
+             <div class="col-lg-6 col-md-10 col-12 d-flex flex-column justify-content-center align-items-center">
+                 <div class="hero-text">
+                     <h1 class="text-white" data-aos="fade-up">AI Unified Network Optimizer</h1>
+                     <p class="text-white mt-3" data-aos="fade-up" data-aos-delay="100">A hybrid solution for strategic planning and real-time optimization of public networks.</p>
+                     <a href="#features" class="custom-btn btn-bg btn mt-3" data-aos="fade-up" data-aos-delay="200">Learn More</a>
+                 </div>
+             </div>
+             <div class="col-lg-6 col-12">
+                 <div class="hero-image" data-aos="fade-up" data-aos-delay="300">
+                    <img src="{{ url_for('static', filename='images/working-girl.png') }}" class="img-fluid" alt="working girl">
+               </div>
+             </div>
+         </div>
+     </div>
+ </section>
+      <!-- FEATURES -->
+    <section class="section-padding" id="features">
+     <div class="container">
+         <div class="row">
+             <div class="col-lg-8 mx-auto col-12">
+                 <h2 class="text-center mb-4" data-aos="fade-up">Core Features</h2>
+                 <ul data-aos="fade-up" data-aos-delay="100">
+                     <li><strong>AI-Driven Network Planning:</strong> Use geospatial and demographic data to map underserved areas and predict future bandwidth demands.</li>
+                     <li><strong>Real-Time Traffic Management:</strong> Classify and prioritize traffic for critical services and implement caching solutions to optimize bandwidth.</li>
+                     <!-- <li><strong>Integrated Dashboard:</strong> Provide a unified view of network plans, real-time metrics, and performance insights for planners and operators.</li>
+                     <li><strong>Feedback Loop:</strong> Use real-time data to dynamically refine planning and optimize the network continuously.</li> -->
+                 </ul>
+             </div>
+         </div>
+     </div>
+ </section>
+     <section class="section-padding" id="implementation">
+          <div class="container">
+              <div class="row">
+                  <div class="col-lg-8 mx-auto col-12">
+                      <h2 class="text-center mb-4" data-aos="fade-up">Implementation Plan</h2>
+                      <ul data-aos="fade-up" data-aos-delay="100">
+                          <li><strong>Data Collection:</strong> Use public datasets (e.g., Giga, OpenCellID) and preprocess them for network planning.</li>
+                          <li><strong>AI Models:</strong> Build predictive models for bandwidth demands and network placements using TensorFlow and scikit-learn.</li>
+                          <li><strong>Traffic Management:</strong> Integrate AI for traffic classification and by using machine learning techniques.</li>
+                          <!-- <li><strong>Dashboard:</strong> Develop a user-friendly interface with Flask or Streamlit, offering real-time visualizations and metrics.</li> -->
+                      </ul>
+                  </div>
+              </div>
+          </div>
+      </section>
+      <!-- MODULES -->
+    <section class="section-padding" id="modules">
+     <div class="container">
+         <h2 class="text-center mb-4" data-aos="fade-up">Project Modules</h2>
+         <div class="row">
+             <div class="col-lg-6 col-md-12 mb-4" data-aos="fade-up">
+                 <h4>Module 1: Data Collection & Preparation</h4>
+                 <p>Gather and preprocess data using tools like GeoPandas and QGIS. Simulate traffic patterns with WANem for network analysis.</p>
+             </div>
+             <div class="col-lg-6 col-md-12 mb-4" data-aos="fade-up" data-aos-delay="100">
+                 <h4>Module 2: AI-Driven Network Planning</h4>
+                 <p>Identify underserved areas and build cost-effective network expansion plans using ML teachniques.</p>
+             </div>
+             <div class="col-lg-6 col-md-12 mb-4" data-aos="fade-up" data-aos-delay="200">
+                 <h4>Module 3: Real-Time Traffic Management</h4>
+                 <p>Classify and prioritize traffic using AI and machine learning combined teachniques and by training the randomforestclassifier.</p>
+             </div>
+             <!-- <div class="col-lg-6 col-md-12 mb-4" data-aos="fade-up" data-aos-delay="300">
+                 <h4>Module 4: Dashboard Development</h4>
+                 <p>Develop a dashboard with Flask or Streamlit to visualize network plans, real-time metrics, and performance insights.</p>
+             </div> -->
+         </div>
+     </div>
+ </section>
+ <!-- DEMO -->
+ <section class="section-padding" id="demo">
+  <div class="container">
+      <h2 class="text-center mb-4" data-aos="fade-up">Hackathon Demo Scenarios</h2>
+      <div class="row" data-aos="fade-up" data-aos-delay="100">
+          <!-- Card for Scenario 1 -->
+          <div class="col-md-6 mb-4">
+              <div class="card h-100">
+                  <img src="{{ url_for('static', filename='images/image.png') }}" class="card-img-top" alt="Cost-effective network planning">
+                  <div class="card-body">
+                      <h5 class="card-title">Scenario 1: Cost-effective Network Expansion</h5>
+                      <p class="card-text">Plan and optimize network expansion to provide better connectivity to underserved school districts while minimizing costs and ensuring efficiency.</p>
+                      <a href="/optimal-tower-location" class="btn btn-primary">Try</a>
+                  </div>
+              </div>
+          </div>
+
+          <!-- Card for Scenario 2 -->
+          <div class="col-md-6 mb-4">
+              <div class="card h-100">
+                  <img src="{{ url_for('static', filename='images/image2.png') }}" class="card-img-top" alt="Network congestion simulation">
+                  <div class="card-body">
+                      <h5 class="card-title">Scenario 2: Network Congestion Simulation</h5>
+                      <p class="card-text">Simulate a congested network and implement strategies to prioritize emergency traffic over non-essential data.</p>
+                      <a href="/real_time_traffic_monitoring_and_prediction" class="btn btn-primary">Try</a>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</section>
+
+
+    <footer class="site-footer">
+      <div class="container">
+        <div class="row">
+
+          <div class="col-lg-5 mx-lg-auto col-md-8 col-10">
+            <h1 class="text-white" data-aos="fade-up" data-aos-delay="100">We make creative <strong>solutions</strong> only.</h1>
+          </div>       
+          <div class="col-lg-5 mx-lg-auto col-md-6 col-12" data-aos="fade-up" data-aos-delay="600">
+            <ul class="social-icon">
+              <li><a href="https://www.linkedin.com/in/hassaanahmed04/" class="fa fa-linkedin"></a></li>
+            </ul>
+          </div>
+
+        </div>
+      </div>
+    </footer>
+
+
+     <!-- SCRIPTS -->
+     <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+     <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+     <script src="{{ url_for('static', filename='js/aos.js') }}"></script>
+     <script src="{{ url_for('static', filename='js/owl.carousel.min.js') }}"></script>
+     <script src="{{ url_for('static', filename='js/smoothscroll.js') }}"></script>
+     <script src="{{ url_for('static', filename='js/custom.js') }}"></script>
+
+
+</body>
+</html>

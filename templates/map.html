@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Optimal Tower Locations</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- CSS Links -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/font-awesome.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/templatemo-digital-trend.css') }}">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <style>
+        #map {
+            width: 100%;
+            height: 600px;
+            margin-top: 20px;
+            border: 1px solid #ddd;
+        }
+        .table-container {
+            margin-top: 30px;
+        }
+        .glow-circle {
+            box-shadow: 0 0 15px rgba(0, 0, 255, 0.6);
+        }
+        #loading-spinner {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1000;
+            display: none;
+        }
+        .container-fluid {
+    padding: 0;
+}
+
+.row.no-gutters {
+    margin: 0;
+}
+
+.map {
+    width: 100%;
+    height: 600px;
+    border-radius: 20px;
+    overflow: hidden;
+}
+    /* Glow effect for markers on Map1 */
+    .map1-marker-glow {
+        filter: drop-shadow(0 0 5px rgba(0, 0, 255, 0.46));
+        animation: marker-glow 1.5s infinite alternate;
+    }
+
+    @keyframes marker-glow {
+        0% {
+            filter: drop-shadow(0 0 1px rgba(0, 0, 255, 0.468));
+        }
+        100% {
+            filter: drop-shadow(0 0 8px rgba(0, 0, 255, 0.468));
+        }
+    }
+    </style>
+</head>
+<body>
+
+    <!-- Loading Spinner -->
+    <div id="loading-spinner">
+        <div class="spinner-border text-primary" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+
+    <!-- Header Section -->
+    <header class="text-center py-5 hero hero-bg d-flex justify-content-center align-items-center">
+        <div class="container">
+            <h1 class="text-white" data-aos="fade-up">Optimal Tower Locations</h1>
+            <p class="text-white mt-3" data-aos="fade-up" data-aos-delay="100">Visualize the suggested optimal locations for towers.</p>
+        </div>
+    </header>
+
+    <section class="section-padding">
+        <div class="container-fluid">
+            <div class="row no-gutters">
+                <!-- Map 1: Optimal Tower Location -->
+                <div class="col-md-6" style="padding-right: 15px;">
+                    <div class="map-heading text-center mb-3">
+                        <h2 style="color: #007bff; font-weight: bold;">Optimal Location for Potential Tower</h2>
+                        <p style="color: #555;">Explore the best-suggested locations for new towers to optimize coverage.</p>
+                    </div>
+                    <div id="map1" class="map" style="border: 1px solid #ddd;"></div>
+                </div>
+    
+                <!-- Map 2: Existing Towers and Schools -->
+                <div class="col-md-6" style="padding-left: 15px;">
+                    <div class="map-heading text-center mb-3">
+                        <h2 style="color: #28a745; font-weight: bold;">Existing Towers and Schools</h2>
+                        <p style="color: #555;">Visualize the current locations of towers and schools for comparison.</p>
+                    </div>
+                    <div id="map2" class="map" style="border: 1px solid #ddd;"></div>
+                </div>
+            </div>
+        </div>        
+        <div class="text-center mt-4">
+            <a href="/optimal-tower-location" class="btn btn-primary btn-block custom-btn btn-bg" role="button">
+                Find more Optimal Locations
+            </a>
+        </div>
+    </section>
+    
+    
+
+   
+
+    <!-- Footer Section -->
+    <footer class="text-center py-4 bg-dark text-white">
+        <p>&copy; 2025 Optimal Tower Location Finder. All Rights Reserved.</p>
+    </footer>
+
+    <!-- JavaScript Links -->
+    <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        // Initialize the first map
+        var map1 = L.map('map1').setView([-22.5, 17.0], 6);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+        }).addTo(map1);
+    
+        // Initialize the second map
+        var map2 = L.map('map2').setView([-22.5, 17.0], 6);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+        }).addTo(map2);
+    
+        // Load GeoJSON data for the first map
+        fetch("/results/potential_towers.geojson")
+    .then(response => response.json())
+    .then(data => {
+        L.geoJSON(data, {
+            pointToLayer: function (feature, latlng) {
+                return L.circleMarker(latlng, {
+                    radius: 5,
+                    color: 'blue',
+                    fillColor: 'blue',
+                    fillOpacity: 0.9,
+                    // className: 'map1-marker-glow' // Add class for glow effect
+                });
+            }
+        }).addTo(map1);
+    })
+    .catch(error => console.error("Error loading data for map1:", error));
+        // Load GeoJSON data for the second map (can be different)
+        var schoolsData = {{ schools_data | safe }};
+        var towersData = {{ towers_data | safe }};
+
+        L.geoJSON(schoolsData, {
+            pointToLayer: function(feature, latlng) {
+                return L.circleMarker(latlng, {
+                    radius: 5, // Adjusted for better visibility
+                    color: 'red', 
+                    fillColor: 'red', 
+                    fillOpacity: 0.8
+                });
+            },
+            onEachFeature: function(feature, layer) {
+                layer.bindPopup('School: ' + feature.properties.school_name_x);
+            }
+        }).addTo(map2);
+
+        // Add towers to the map
+        L.geoJSON(towersData, {
+            pointToLayer: function(feature, latlng) {
+                return L.circleMarker(latlng, {
+                    radius: 5, // Adjusted for better visibility
+                    color: 'black', 
+                    fillColor: 'black', 
+                    fillOpacity: 0.8
+                });
+            },
+            onEachFeature: function(feature, layer) {
+                layer.bindPopup('Tower: ' + feature.properties.cell);
+            }
+        }).addTo(map2);
+
+    </script>
+</body>
+</html>

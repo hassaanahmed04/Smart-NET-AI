@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Optimal Tower Location Finder</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- CSS Links -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/font-awesome.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/templatemo-digital-trend.css') }}">
+</head>
+<body>
+
+    <!-- Header Section -->
+    <header class="text-center py-5 hero hero-bg d-flex justify-content-center align-items-center">
+        <div class="container">
+            <h1 class="text-white" data-aos="fade-up">Optimal Tower Location Finder</h1>
+            <p class="text-white mt-3" data-aos="fade-up" data-aos-delay="100">Upload data to determine the best locations for new network towers.</p>
+        </div>
+    </header>
+
+    <section class="section-padding">
+        <div class="container">
+            <div class="row">
+                <!-- Form Section -->
+                <div class="col-lg-6 col-md-6 col-sm-12">
+                    <form action="/optimal-tower-location" method="POST" enctype="multipart/form-data" class="bg-light p-5 rounded shadow">
+                        <h3 class="text-center mb-4">Upload Your Data</h3>
+    
+                        <div class="form-group">
+                            <label for="schools">Upload Schools Data:</label>
+                            <input type="file" name="schools" class="form-control" required>
+                        </div>
+                        <div class="form-group mt-3">
+                            <label for="towers">Upload Towers Data:</label>
+                            <input type="file" name="towers" class="form-control" required>
+                        </div>
+    
+                        <div class="text-center mt-4">
+                            <button type="submit" class="btn btn-primary btn-block custom-btn btn-bg">Find Optimal Locations</button>
+                        </div>
+                    </form>
+                </div>
+    
+                <!-- Download Sample Files Section -->
+                <div class="col-lg-6 col-md-6 col-sm-12">
+                    <div class="bg-light p-5 rounded shadow">
+                        <h3 class="text-center mb-4">Download Sample Files</h3>
+                        <div class="text-center">
+                            <a href="/static/sample_data/filtered_dataset_namibia_schools.csv" class="btn btn-secondary mb-3">Download Schools Data</a>
+                            <a href="/static/sample_data/namibia_filtered_towers.csv" class="btn btn-secondary">Download Towers Data</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer Section -->
+    <footer class="text-center py-4 bg-dark text-white">
+        <p>&copy; 2025 Optimal Tower Location Finder. All Rights Reserved.</p>
+    </footer>
+
+    <!-- JavaScript Links -->
+    <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+</body>
+</html>

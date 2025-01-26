@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real-Time Data Monitoring</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background-color: #f4f4f9;
+        }
+
+        canvas {
+            max-width: 80%;
+            margin: 20px 0;
+        }
+
+        #modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        #modal-content {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 500px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        #modal-content h2 {
+            margin-bottom: 10px;
+            font-size: 24px;
+            color: #1f2937;
+        }
+
+        #modal-content p {
+            margin: 10px 0;
+            font-size: 16px;
+            color: #374151;
+        }
+
+        #close-modal {
+            margin-top: 15px;
+            background: #2563eb;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        #close-modal:hover {
+            background: #1e40af;
+        }
+    </style>
+</head>
+<body>
+    <h1>Real-Time Traffic Data Monitoring</h1>
+    <canvas id="trafficChart" width="800" height="400"></canvas>
+    <div id="actionLog">
+        <h3>Bandwidth Actions Log</h3>
+    </div>
+
+    <!-- Modal -->
+    <div id="modal">
+        <div id="modal-content">
+            <h2>Data Disclaimer</h2>
+            <p>The data shown here is synthetic and randomly generated. It is processed using our Random Forest classifier to predict traffic patterns.</p>
+            <p>Note: This system is under development, and further optimization is possible.</p>
+            <button id="close-modal">Close</button>
+        </div>
+    </div>
+
+    <script>
+        const ctx = document.getElementById('trafficChart').getContext('2d');
+        const modal = document.getElementById('modal');
+        const closeModal = document.getElementById('close-modal');
+
+        // Close modal on button click
+        closeModal.addEventListener('click', () => {
+            modal.style.display = 'none';
+        });
+
+        // Chart initialization and update logic remains the same...
+        const trafficChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: [],
+                datasets: [
+                    {
+                        label: 'Download Speed (Mbps)',
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                        data: [],
+                        fill: true,
+                    },
+                    {
+                        label: 'Upload Speed (Mbps)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                        data: [],
+                        fill: true,
+                    },
+                    {
+                        label: 'Latency (ms)',
+                        borderColor: 'rgba(255, 206, 86, 1)',
+                        backgroundColor: 'rgba(255, 206, 86, 0.2)',
+                        data: [],
+                        fill: true,
+                    },
+                    {
+                        label: 'Prediction',
+                        borderColor: 'rgba(153, 102, 255, 1)',
+                        backgroundColor: 'rgba(153, 102, 255, 0.2)',
+                        data: [],
+                        fill: true,
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                },
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Time'
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Values'
+                        }
+                    }
+                }
+            }
+        });
+
+        let isFetching = false;
+
+       // Function to generate random data and fetch prediction
+async function fetchPrediction() {
+    const randomData = {
+        download_speed: (Math.random() * 99.5 + 0.5).toFixed(2),
+        upload_speed: (Math.random() * 49.9 + 0.1).toFixed(2),
+        latency: (Math.random() * 490 + 10).toFixed(2),
+    };
+
+    try {
+        const response = await fetch('/classify', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(randomData),
+        });
+
+        if (response.ok) {
+            const prediction = await response.json();
+
+            // Map prediction to specific actions
+            let actionMessage = '';
+            if (prediction.label === '0') {
+                actionMessage = 'Allocating full bandwidth to Emergency Traffic';
+            } else if (prediction.label === '1') {
+                actionMessage = 'Throttling bandwidth to 1 Mbps for Streaming';
+            } else {
+                actionMessage = prediction.traffic_label;
+            }
+
+            // Log the action to the UI with styling
+            const logEntry = document.createElement('p');
+            logEntry.textContent = `${new Date().toLocaleTimeString()}: ${actionMessage}`;
+
+            // Assign background and text color based on traffic label
+            if (prediction.traffic_label === 'High-Speed Traffic') {
+                logEntry.style.backgroundColor = '#fdecea'; // Light red
+                logEntry.style.color = '#b91c1c'; // Dark red
+                logEntry.style.fontWeight = 'bold'; // Highlight critical logs
+            } else if (prediction.traffic_label === 'Low-Speed Traffic') {
+                logEntry.style.backgroundColor = '#e7f9f0'; // Light green
+                logEntry.style.color = '#027a48'; // Dark green
+            } else if (prediction.traffic_label === 'Normal Traffic') {
+                logEntry.style.backgroundColor = '#f0f9ff'; // Light blue
+                logEntry.style.color = '#0369a1'; // Dark blue
+            } else {
+                logEntry.style.backgroundColor = '#f9fafb'; // Neutral
+                logEntry.style.color = '#374151'; // Default text color
+            }
+
+            // Add styles for the log container (actionLog)
+            const actionLog = document.getElementById('actionLog');
+            if (actionLog) {
+                actionLog.style.width = '100%'; // Full width
+                actionLog.style.height = '400px'; // Increased height
+                actionLog.style.overflowY = 'scroll'; // Scrollable for long logs
+                actionLog.style.border = '1px solid #d1d5db'; // Light border for clarity
+                actionLog.style.borderRadius = '8px'; // Rounded corners
+                actionLog.style.padding = '16px'; // Padding inside the log container
+                actionLog.style.backgroundColor = '#f9fafb'; // Light gray background
+                actionLog.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.1)'; // Subtle shadow
+            }
+
+            actionLog.appendChild(logEntry);
+
+            // Auto-scroll to the bottom of the log
+            actionLog.scrollTop = actionLog.scrollHeight;
+
+            // Keep log within 10 entries
+            if (actionLog.childNodes.length > 10) {
+                actionLog.removeChild(actionLog.firstChild);
+            }
+
+            return { ...randomData, prediction: prediction.traffic_label || 'Unknown' };
+        } else {
+            console.error('API Error:', response.status, response.statusText);
+            return { ...randomData, prediction: 'Error' };
+        }
+    } catch (error) {
+        console.error('Fetch Error:', error);
+        return { ...randomData, prediction: 'Error' };
+    }
+}
+
+// Update the chart
+async function updateChart() {
+    if (isFetching) return; // Skip if already fetching
+
+    isFetching = true;
+    const currentTime = new Date().toLocaleTimeString();
+    const newData = await fetchPrediction();
+
+    // Add new data to the chart
+    trafficChart.data.labels.push(currentTime);
+    trafficChart.data.datasets[0].data.push(newData.download_speed);
+    trafficChart.data.datasets[1].data.push(newData.upload_speed);
+    trafficChart.data.datasets[2].data.push(newData.latency);
+    trafficChart.data.datasets[3].data.push(newData.prediction === 'Error' ? 0 : newData.prediction);
+
+    // Keep the data within 10 points
+    if (trafficChart.data.labels.length > 10) {
+        trafficChart.data.labels.shift();
+        trafficChart.data.datasets.forEach((dataset) => dataset.data.shift());
+    }
+
+    trafficChart.update();
+    isFetching = false;
+}
+
+// Update the chart every second
+setInterval(updateChart, 1000);
+    </script>
+</body>
+</html>
