@@ -2,7 +2,7 @@
 
 **Note**: This is an extensive demo of our project. Unfortunately, we were unable to make it live on time due to limited resources. However, you can refer to the provided video for a complete walkthrough of the system's features and functionality.
 
-[Watch the Demo Video Here](https://drive.google.com/file/d/12gZDVaf1REXsS5DdbfK19WabaTHvbdfj/view?usp=sharing)
+[Watch the Demo Video Here](https://drive.google.com/file/d/1F9E5cHEaBndSj1grP41loeQ6qdkU42IZ/view?usp=sharing)
 
 This project is a Flask-based web application designed for real-time traffic monitoring, prediction, and optimization. It leverages machine learning models and clustering techniques to classify traffic conditions and suggest optimal tower locations for underserved areas.
 
